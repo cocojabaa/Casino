@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/Casino/static/css/main.a5823316.css",
+    "main.js": "/Casino/static/js/main.f9dcf247.js",
+    "static/js/885.c76dd242.chunk.js": "/Casino/static/js/885.c76dd242.chunk.js",
+    "static/js/453.6a52f192.chunk.js": "/Casino/static/js/453.6a52f192.chunk.js",
+    "static/media/timer.mp3": "/Casino/static/media/timer.4f995f44676c614b3061.mp3",
+    "static/media/end_scrolling.mp3": "/Casino/static/media/end_scrolling.0c5140aa137104c3d49c.mp3",
+    "static/media/ready.mp3": "/Casino/static/media/ready.3bab54b26e4f0f4eb400.mp3",
+    "index.html": "/Casino/index.html",
+    "main.a5823316.css.map": "/Casino/static/css/main.a5823316.css.map",
+    "main.f9dcf247.js.map": "/Casino/static/js/main.f9dcf247.js.map",
+    "885.c76dd242.chunk.js.map": "/Casino/static/js/885.c76dd242.chunk.js.map",
+    "453.6a52f192.chunk.js.map": "/Casino/static/js/453.6a52f192.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a5823316.css",
+    "static/js/main.f9dcf247.js"
+  ]
+}
