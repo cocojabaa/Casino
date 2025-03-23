@@ -1,49 +1,92 @@
 import {useState, useEffect} from 'react';
 import {motion} from 'framer-motion';
 
-const ALL_VALUES_PULL = ["🎃", "🤡", "💀", "🐶", "🐙"]
-const ITERS = 15
-
-// Math.floor(Math.random() * ALL_VALUES_PULL.length)ф
+// const ALL_VALUES_PULL = ["🎃", "🤡", "💀", "🐶", "🐙"]
+const NUMBER_OF_SCROLLS = 15
+const BG_COLORS = {
+  bright: "#36464f",
+  dull: "#20282d",
+  default: "#1c1f26"
+}
 
 function App() {
-  let [currentValues, setCurrentValues] = useState([])
-  let [isButtonDisabled, setIsButtonDisabled] = useState(false)
+  const[currentValues, setCurrentValues] = useState([])
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false)
+  const [targetBGColor, setTargetBGColor] = useState(null)
+  const [isBGAnimating, setIsBGAnimating] = useState(false)
+  const backgroundVariants = {
+    light: {background: `linear-gradient(${targetBGColor}, #111218)`, transition: {duration: 0}},
+    dark: {background: "linear-gradient(#1c1f26, #111218)", transition: {duration: .8}},
+  }
+
+  const availableValues = [
+    ["🎃", "💀", "🐶", "🐙"],
+    ["🎃", "💀", "🐶", "🐙"],
+    ["🎃", "💀", "🐶", "🐙"]
+  ]
+
+  function getRandomValue(current, index) {
+    const randomIndex = Math.floor(Math.random() * availableValues[index].length)
+    const randomValue = availableValues[index][randomIndex]
+    availableValues[index].splice(randomIndex, 1)
+    availableValues[index].push(current)
+    return randomValue
+  }
 
   let intervalId = 0
 
   useEffect(() => {
-    console.log(123)
-    setCurrentValues(["🤡", "🤡", "🤡"])
+    setCurrentValues(['🤡', '🤡', '🤡'])
     return () => clearInterval(intervalId) // Очистка при размонтировании
   }, [])
 
   function handleClick() {
     setIsButtonDisabled(true)
+
+    let realValues = [currentValues[0], currentValues[1], currentValues[2]]
+    console.log("realValues START: ", realValues)
+
     let i = 0
     intervalId = setInterval(() => {
 
-      if (i < ITERS) {
-        setCurrentValues((prev) => [
-          ALL_VALUES_PULL[Math.floor(Math.random() * ALL_VALUES_PULL.length)],
-          ALL_VALUES_PULL[Math.floor(Math.random() * ALL_VALUES_PULL.length)],
-          ALL_VALUES_PULL[Math.floor(Math.random() * ALL_VALUES_PULL.length)]
-        ])
-      } else if (i < ITERS * 2) {
-        setCurrentValues((prev) => [
-          prev[0],
-          ALL_VALUES_PULL[Math.floor(Math.random() * ALL_VALUES_PULL.length)],
-          ALL_VALUES_PULL[Math.floor(Math.random() * ALL_VALUES_PULL.length)]
-        ])
-      } else if (i < ITERS * 3) {
-        setCurrentValues((prev) => [
-          prev[0],
-          prev[1],
-          ALL_VALUES_PULL[Math.floor(Math.random() * ALL_VALUES_PULL.length)]
-        ])
+      if (i < NUMBER_OF_SCROLLS) {
+        realValues = [
+          getRandomValue(realValues[0], 0),
+          getRandomValue(realValues[1], 1),
+          getRandomValue(realValues[2], 2)
+        ]
+        setCurrentValues((prev) => realValues)
+      } else if (i < NUMBER_OF_SCROLLS * 2) {
+        realValues = [
+          realValues[0],
+          getRandomValue(realValues[1], 1),
+          getRandomValue(realValues[2], 2)
+        ]
+        setCurrentValues((prev) => realValues)
+      } else if (i < NUMBER_OF_SCROLLS * 3) {
+        realValues = [
+          realValues[0],
+          realValues[1],
+          getRandomValue(realValues[2], 2)
+        ]
+        setCurrentValues((prev) => realValues)
       } else {
-        setIsButtonDisabled(false)
         clearInterval(intervalId);
+        setIsButtonDisabled(false)
+        if ((realValues[0] === realValues[1]
+          || realValues[0] === realValues[2]
+          || realValues[1] === realValues[2])
+          && !(realValues[0] === realValues[1] === realValues[2])) {
+          setTargetBGColor(BG_COLORS.dull)
+          setIsBGAnimating(true)
+          setTimeout(() => {setIsBGAnimating(false)}, 10)
+        }
+        else if (realValues[0] === realValues[1] === realValues[2]) {
+          setTargetBGColor(BG_COLORS.bright)
+          setIsBGAnimating(true)
+          setTimeout(() => {setIsBGAnimating(false)}, 10)
+        }
+        console.log(realValues)
       }
       i++
       }, 80)
@@ -52,11 +95,8 @@ function App() {
 
   return (<motion.div
     className="background"
-    initial={{backgroundColor: '#ff0000'}}
-    animate={{backgroundColor: '#111218'}}
-    transition={{
-      duration: .2
-    }}
+    variants={backgroundVariants}
+    animate={isBGAnimating ? "light" : "dark"}
   >
     <div className="scoreboard-hd">
       <div className="scoreboard-els-holder">

@@ -20,7 +20,7 @@ p {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #111218;
+    background: linear-gradient(#1c1f26, #111218);
 }
 
 .scoreboard-els-holder {
