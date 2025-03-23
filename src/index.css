@@ -28,6 +28,13 @@ p {
     font-size: 20px;
     font-family: 'Montserrat', sans-serif;
 }
+.attempts-text {
+    color: #9e9eab;
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
+    transition-duration: 2s;
+}
 
 .scoreboard-els-holder {
     display: flex;
