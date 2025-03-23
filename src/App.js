@@ -4,7 +4,7 @@ import {motion} from 'framer-motion';
 // const ALL_VALUES_PULL = ["🎃", "🤡", "💀", "🐶", "🐙"]
 const NUMBER_OF_SCROLLS = 15
 const BG_COLORS = {
-  bright: "#36464f",
+  bright: "#4e6979",
   dull: "#20282d",
   default: "#1c1f26"
 }
@@ -14,16 +14,18 @@ function App() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
   const [targetBGColor, setTargetBGColor] = useState(null)
   const [isBGAnimating, setIsBGAnimating] = useState(false)
+  const [isScoreTextVisible, setIsScoreTextVisible] = useState(false)
   const backgroundVariants = {
     light: {background: `linear-gradient(${targetBGColor}, #111218)`, transition: {duration: 0}},
     dark: {background: "linear-gradient(#1c1f26, #111218)", transition: {duration: .8}},
   }
-
   const availableValues = [
     ["🎃", "💀", "🐶", "🐙"],
     ["🎃", "💀", "🐶", "🐙"],
     ["🎃", "💀", "🐶", "🐙"]
   ]
+
+  let score = 0
 
   function getRandomValue(current, index) {
     const randomIndex = Math.floor(Math.random() * availableValues[index].length)
@@ -98,7 +100,8 @@ function App() {
     variants={backgroundVariants}
     animate={isBGAnimating ? "light" : "dark"}
   >
-    <div className="scoreboard-hd">
+    <span className="score-text">Score: {score}</span>
+    <div className="scoreboard-holder">
       <div className="scoreboard-els-holder">
         <span className="scoreboard-el">{currentValues[0]}</span>
         <span className="scoreboard-el">{currentValues[1]}</span>
